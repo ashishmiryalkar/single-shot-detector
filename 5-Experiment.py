@@ -21,7 +21,6 @@
 # %autoreload 2
 
 import os
-import random
 
 from operator import itemgetter
 
@@ -65,6 +64,7 @@ from trainer.metrics import APEstimator
 from trainer.datasets import ListDataset
 from trainer.data_set_downloader import DataSetDownloader 
 from trainer.matplotlib_visualizer import MatplotlibVisualizer
+import secrets
 
 
 # -
@@ -184,7 +184,7 @@ class Experiment:
         )
 
         for axi in ax.flat:
-            index = random.randrange(len(self.loader_test.dataset))
+            index = secrets.SystemRandom().randrange(len(self.loader_test.dataset))
 
             image, gt_boxes, _ = self.loader_test.dataset[index]
 

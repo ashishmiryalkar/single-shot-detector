@@ -1,9 +1,9 @@
-import random
 import cv2
 import numpy as np
 import torch
 
 from .configuration import SystemConfig, TrainerConfig, DataloaderConfig
+import secrets
 
 
 class AverageMeter:
@@ -50,7 +50,7 @@ def patch_configs(epoch_num_to_set=TrainerConfig.epoch_num, batch_size_to_set=Da
 def setup_system(system_config: SystemConfig) -> None:
     torch.manual_seed(system_config.seed)
     np.random.seed(system_config.seed)
-    random.seed(system_config.seed)
+    secrets.SystemRandom().seed(system_config.seed)
     torch.set_printoptions(precision=10)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(system_config.seed)
@@ -102,7 +102,7 @@ def random_flip(img, boxes):
         img: (cv2) randomly flipped image.
         boxes: (tensor) randomly flipped boxes.
     '''
-    if random.random() < 0.5:
+    if secrets.SystemRandom().random() < 0.5:
         img = cv2.flip(img, 1)
         width = img.shape[1]
         xmin = width - boxes[:, 2]
